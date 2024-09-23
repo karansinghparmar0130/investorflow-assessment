@@ -1,0 +1,432 @@
+openapi: 3.0.3
+info:
+  title: Contact Management API
+  description: |-
+    This is a Contact Management API, developed as part of InvestorFlow technical assessment.
+  contact:
+    email: karanparmar0130@gmail.com
+  version: 1.0.0
+externalDocs:
+  description: Find out more about InvestorFlow
+  url: https://www.investorflow.com/aboutus.html
+servers:
+  - url: http://contact-management/api
+tags:
+  - name: contact
+    description: Contact related actions
+  - name: fund
+    description: Fund related actions
+paths:
+  /v1/contact:
+    post:
+      tags:
+        - contact
+      summary: Create a contact
+      description: Returns created contact
+      operationId: CreateContact
+      requestBody:
+        description: Create request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+  
+  /v1/contact/{contactId}:
+    get:
+      tags:
+        - contact
+      summary: Find a contact
+      description: Returns a single contact
+      operationId: GetContact
+      parameters:
+        - name: contactId
+          in: path
+          description: Id of contact
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid Id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "404"
+                message: "Contact not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+    
+    put:
+      tags:
+        - contact
+      summary: Update a contact
+      description: Returns updated contact
+      operationId: UpdateContact
+      parameters:
+        - name: contactId
+          in: path
+          description: Id of contact
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Update request
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "404"
+                message: "Contact not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+
+    delete:
+      tags:
+        - contact
+      summary: Delete a contact
+      description: Returns acknowledgement
+      operationId: DeleteContact
+      parameters:
+        - name: contactId
+          in: path
+          description: Id of contact
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Invalid Id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "404"
+                message: "Contact not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+
+  /v1/contact/{contactId}/assign-fund/{fundId}:
+    put:
+      tags:
+        - contact
+      summary: Assign contact to a fund
+      description: Returns updated contact
+      operationId: AssignFundToContact
+      parameters:
+        - name: contactId
+          in: path
+          description: Id of contact
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fundId
+          in: path
+          description: Id of fund
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact/ Fund not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                ContactNotFound:
+                  value:
+                    code: "404"
+                    message: "Contact not found"
+                FundNotFound:
+                  value:
+                    code: "404"
+                    message: "Contact not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+
+  /v1/contact/{contactId}/remove-fund:
+    put:
+      tags:
+        - contact
+      summary: Remove contact to a fund
+      description: Returns updated contact
+      operationId: RemoveFundFromContact
+      parameters:
+        - name: contactId
+          in: path
+          description: Id of contact
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '400':
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact/ Fund not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "404"
+                message: "Contact not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+
+  /v1/fund/{fundId}/contacts:
+    get:
+      tags:
+        - fund
+      summary: Find contacts for a fund
+      description: Returns a list of contacts
+      operationId: GetContactsForFund
+      parameters:
+        - name: fundId
+          in: path
+          description: Id of fund
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundResponse'
+        '400':
+          description: Invalid Id supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "400"
+                message: "Refer API documentation for request specification"
+        '404':
+          description: Contact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "404"
+                message: "Fund not found"
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "500"
+                message: "Refer API logs for further details"
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      example:
+        code: XXX
+        message: Something went wrong
+    Contact:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          pattern: "^[A-Za-z][A-Za-z]*(?:[-' ][A-Za-z]+)*$"
+          example: John
+        email:
+          type: string
+          maxLength: 150
+          format: email
+          example: john@email.com
+        phoneNumber:
+          type: string
+          maxLength: 20
+          format: phone
+          example: '12345'
+    ContactResponse:
+      type: object
+      required:
+        - contactId
+        - name
+      properties:
+        contactId:
+          type: string
+          format: uuid
+        fundId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: John
+        email:
+          type: string
+          example: john@email.com
+        phoneNumber:
+          type: string
+          example: '12345'
+    FundResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/ContactResponse"

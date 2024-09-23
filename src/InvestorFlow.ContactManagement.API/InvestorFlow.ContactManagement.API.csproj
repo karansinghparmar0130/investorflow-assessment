@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\InvestorFlow.ContactManagement.Application\InvestorFlow.ContactManagement.Application.csproj" />
+      <ProjectReference Include="..\InvestorFlow.ContactManagement.Infrastructure\InvestorFlow.ContactManagement.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

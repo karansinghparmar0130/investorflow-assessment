@@ -1,0 +1,4 @@
+## Ignore following while building docker image
+**/bin/*
+**/obj/*
+**/Properties/*
