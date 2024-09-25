@@ -31,7 +31,7 @@ public class GlobalExceptionMiddleware(
         var (statusCode, message) = exception switch
         {
             ValidationException =>
-                (StatusCodes.Status400BadRequest, "Refer API documentation for request specification"),
+                (StatusCodes.Status400BadRequest, exception.Message),
             ContactNotFoundException =>
                 (StatusCodes.Status404NotFound, "Contact not found"),
             FundNotFoundException =>

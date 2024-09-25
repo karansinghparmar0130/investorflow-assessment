@@ -12,7 +12,7 @@ public class FundService(IFundRepository fundRepository) : IFundService
 {
     public async Task<IEnumerable<Contact>> ListContactsForFundAsync(Guid fundId)
     {
-        var fundById = await fundRepository.GetAsync(fundId);
+        var fundById = await fundRepository.GetAsync(fundId, includeContacts: true);
         if (fundById is null) throw new FundNotFoundException();
 
         return fundById.Contacts;

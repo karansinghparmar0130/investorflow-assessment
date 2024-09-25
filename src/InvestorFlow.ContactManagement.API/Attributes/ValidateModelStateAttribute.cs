@@ -28,7 +28,7 @@ namespace InvestorFlow.ContactManagement.API.Attributes
                 .Select(item => $"Property: {item.Property}, Error: {string.Join(" ", item.Errors ?? [])}")
                 .ToList();
 
-            throw new ValidationException($"Bad request received with {string.Join(" | ", errorList)}");
+            throw new ValidationException($"{string.Join(" | ", errorList)}");
         }
     }
 }

@@ -1,4 +1,13 @@
-﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+﻿IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'ContactManagementDb')
+BEGIN
+    CREATE DATABASE ContactManagementDb;
+END;
+GO
+
+USE ContactManagementDb;
+GO
+
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,

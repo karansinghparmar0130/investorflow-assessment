@@ -13,12 +13,18 @@ public class FundRepository(
     AppDbContext dbContext,
     IMapper<Fund, DomainFund> fundResponseMapper) : IFundRepository
 {
-    public async Task<DomainFund> GetAsync(Guid fundId)
+    public async Task<DomainFund> GetAsync(Guid fundId, bool includeContacts = false)
     {
-        var fundById = await dbContext
+        var query = dbContext
             .Funds
             .AsNoTracking()
-            .Include(fund => fund.Contacts)
+            .AsQueryable();
+
+        // Conditionally include Contacts based on includeContacts parameter
+        if (includeContacts)
+            query = query.Include(fund => fund.Contacts);
+
+        var fundById = await query
             .FirstOrDefaultAsync(fund => fund.ExternalId == fundId);
 
         if (fundById is null)

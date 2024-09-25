@@ -132,7 +132,7 @@ public class ContactServiceTests
         var contactById = new Contact { Name = name };
         var contact = new Contact { Name = name, Email = email, PhoneNumber = phone, Fund = fund };
         _contactRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(contactById);
-        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(fund);
+        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<bool>())).ReturnsAsync(fund);
         _contactRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Contact>())).ReturnsAsync(contact);
 
         // Act
@@ -144,7 +144,7 @@ public class ContactServiceTests
                 contactId),
             Times.Once);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                fundId),
+                fundId, false),
             Times.Once);
         _contactRepositoryMock.Verify(l => l.UpdateAsync(
                 It.Is<Contact>(c => c.Fund == fund)),
@@ -161,7 +161,7 @@ public class ContactServiceTests
         var contactById = new Contact { Name = "test" };
         Fund? fund = null; // Returns null
         _contactRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(contactById);
-        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>()))!.ReturnsAsync(fund);
+        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<bool>()))!.ReturnsAsync(fund);
 
         // Act & Assert
         var actualResponse =
@@ -174,7 +174,7 @@ public class ContactServiceTests
                 contactId),
             Times.Once);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                fundId),
+                fundId, false),
             Times.Once);
         _contactRepositoryMock.Verify(l => l.UpdateAsync(
                 It.IsAny<Contact>()),
@@ -202,7 +202,7 @@ public class ContactServiceTests
                 contactId),
             Times.Once);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                It.IsAny<Guid>()),
+                It.IsAny<Guid>(), It.IsAny<bool>()),
             Times.Never);
         _contactRepositoryMock.Verify(l => l.UpdateAsync(
                 It.IsAny<Contact>()),
@@ -216,11 +216,12 @@ public class ContactServiceTests
         // Arrange
         const string name = "test";
         var contactId = Guid.NewGuid();
-        var contactById = new Contact { Name = name, ContactId = contactId };
         var fundId = Guid.NewGuid();
-        var fund = new Fund { Name = "fund", FundId = fundId, Contacts = new[] { contactById } };
+        var contactById = new Contact
+            { Name = name, ContactId = contactId, Fund = new Fund { FundId = fundId, Name = "some name" } };
+        var fund = new Fund { Name = "fund", FundId = fundId };
         _contactRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(contactById);
-        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(fund);
+        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<bool>())).ReturnsAsync(fund);
 
         // Act & Assert
         var actualResponse =
@@ -233,7 +234,7 @@ public class ContactServiceTests
                 contactId),
             Times.Once);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                fundId),
+                fundId, false),
             Times.Once);
         _contactRepositoryMock.Verify(l => l.UpdateAsync(
                 It.IsAny<Contact>()),

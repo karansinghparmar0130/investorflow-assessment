@@ -19,7 +19,7 @@ public class FundServiceTests
         // Arrange
         var fundId = Guid.NewGuid();
         var fund = new Fund { Name = "fund", FundId = fundId };
-        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>())).ReturnsAsync(fund);
+        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<bool>())).ReturnsAsync(fund);
 
         // Act
         var actualResponse = await _sut.ListContactsForFundAsync(fundId);
@@ -27,7 +27,7 @@ public class FundServiceTests
         // Assert
         Assert.NotNull(actualResponse);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                fundId),
+                fundId, true),
             Times.Once);
     }
 
@@ -37,7 +37,7 @@ public class FundServiceTests
         // Arrange
         var fundId = Guid.NewGuid();
         Fund? fund = null; // Returns null
-        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>()))!.ReturnsAsync(fund);
+        _fundRepositoryMock.Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<bool>()))!.ReturnsAsync(fund);
 
         // Act & Assert
         var actualResponse =
@@ -46,7 +46,7 @@ public class FundServiceTests
         Assert.NotNull(actualResponse);
         Assert.IsType<FundNotFoundException>(actualResponse);
         _fundRepositoryMock.Verify(l => l.GetAsync(
-                fundId),
+                fundId, true),
             Times.Once);
     }
 }

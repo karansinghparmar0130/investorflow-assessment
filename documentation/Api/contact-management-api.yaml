@@ -32,7 +32,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Contact'
       responses:
-        '200':
+        '201':
           description: Successful operation
           content:
             application/json:
@@ -46,7 +46,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '500':
           description: Server exception
           content:
@@ -87,7 +87,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact not found
           content:
@@ -143,7 +143,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact not found
           content:
@@ -188,7 +188,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact not found
           content:
@@ -245,7 +245,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact/ Fund not found
           content:
@@ -301,7 +301,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact/ Fund not found
           content:
@@ -351,7 +351,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: "400"
-                message: "Refer API documentation for request specification"
+                message: "Property: {property}, Error: {error}"
         '404':
           description: Contact not found
           content:

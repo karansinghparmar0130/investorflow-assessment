@@ -49,7 +49,7 @@ public class ContactService(
         var fundById = await fundRepository.GetAsync(fundId);
         if (fundById is null) throw new FundNotFoundException();
 
-        if (fundById.Contacts.Any(contact => contact.ContactId == contactId))
+        if (contactById.Fund != null && contactById.Fund.FundId == fundById.FundId)
             throw new ValidationException("Contact is already assigned to this fund");
 
         // Assign fund
