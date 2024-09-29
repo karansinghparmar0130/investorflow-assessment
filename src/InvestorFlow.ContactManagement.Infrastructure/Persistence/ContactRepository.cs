@@ -1,5 +1,4 @@
 using InvestorFlow.ContactManagement.Application.Interfaces;
-using InvestorFlow.ContactManagement.Domain.Exceptions;
 using InvestorFlow.ContactManagement.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using DomainContact = InvestorFlow.ContactManagement.Domain.Entities.Contact;
@@ -38,7 +37,7 @@ public class ContactRepository(
         return contactResponseMapper.Map(contactEntity);
     }
 
-    public async Task<DomainContact> GetAsync(Guid contactId)
+    public async Task<DomainContact?> GetAsync(Guid contactId)
     {
         var contactById = await dbContext
             .Contacts
@@ -46,22 +45,16 @@ public class ContactRepository(
             .Include(contact => contact.Fund)
             .FirstOrDefaultAsync(contact => contact.ExternalId == contactId);
 
-        if (contactById is null)
-            throw new ContactNotFoundException();
-
-        return contactResponseMapper.Map(contactById);
+        return contactById is null
+            ? null
+            : contactResponseMapper.Map(contactById);
     }
 
     public async Task DeleteAsync(Guid contactId)
     {
-        var contactById = await dbContext
+        await dbContext
             .Contacts
-            .FirstOrDefaultAsync(contact => contact.ExternalId == contactId);
-        
-        if (contactById is null)
-            throw new ContactNotFoundException();
-        
-        dbContext.Contacts.Remove(contactById);
-        await dbContext.SaveChangesAsync(); 
+            .Where(contact => contact.ExternalId == contactId)
+            .ExecuteDeleteAsync();
     }
 }

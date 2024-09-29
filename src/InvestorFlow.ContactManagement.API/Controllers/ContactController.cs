@@ -49,7 +49,7 @@ namespace InvestorFlow.ContactManagement.API.Controllers
             var contactResponse = contactResponseMapper.Map(serviceResponse);
 
             logger.LogInformation("Create contact completed");
-            return Created(string.Empty, contactResponse);
+            return CreatedAtAction("GetContact", new { contactId = contactResponse.ContactId }, contactResponse);
         }
 
         /// <summary>

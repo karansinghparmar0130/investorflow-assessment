@@ -42,13 +42,13 @@ public class ContactControllerTests
             .Returns(mappedResponse);
 
         // Act
-        var actualResponse = await _sut.CreateContact(request) as CreatedResult;
+        var actualResponse = await _sut.CreateContact(request) as CreatedAtActionResult;
 
         // Assert
         Assert.NotNull(actualResponse);
         Assert.Equal(201, actualResponse.StatusCode);
         Assert.Equal(mappedResponse, actualResponse.Value);
-        Assert.Empty(actualResponse.Location!);
+        Assert.NotEmpty(actualResponse.ActionName!);
         _contactMapperMock.Verify(l => l.Map(
                 request),
             Times.Once);

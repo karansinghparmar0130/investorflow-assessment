@@ -12,7 +12,6 @@ public class ContactMapper(IMapper mapper) :
     IMapper<Contact, DomainContact>,
     IMapper<DomainContact, ContactResponse>,
     IMapper<IEnumerable<DomainContact>, FundResponse>
-
 {
     public DomainContact Map(Contact source) =>
         mapper.Map<DomainContact>(source);

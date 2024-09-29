@@ -7,5 +7,5 @@ namespace InvestorFlow.ContactManagement.Application.Interfaces;
 /// </summary>
 public interface IFundRepository
 {
-    Task<Fund> GetAsync(Guid fundId, bool includeContacts = false);
+    Task<Fund?> GetAsync(Guid fundId, bool includeContacts = false);
 }

@@ -1,5 +1,4 @@
 using InvestorFlow.ContactManagement.Application.Interfaces;
-using InvestorFlow.ContactManagement.Domain.Exceptions;
 using InvestorFlow.ContactManagement.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using DomainFund = InvestorFlow.ContactManagement.Domain.Entities.Fund;
@@ -13,7 +12,7 @@ public class FundRepository(
     AppDbContext dbContext,
     IMapper<Fund, DomainFund> fundResponseMapper) : IFundRepository
 {
-    public async Task<DomainFund> GetAsync(Guid fundId, bool includeContacts = false)
+    public async Task<DomainFund?> GetAsync(Guid fundId, bool includeContacts = false)
     {
         var query = dbContext
             .Funds
@@ -27,9 +26,8 @@ public class FundRepository(
         var fundById = await query
             .FirstOrDefaultAsync(fund => fund.ExternalId == fundId);
 
-        if (fundById is null)
-            throw new FundNotFoundException();
-
-        return fundResponseMapper.Map(fundById);
+        return fundById is null
+            ? null
+            : fundResponseMapper.Map(fundById);
     }
 }
