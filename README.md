@@ -28,7 +28,15 @@ Configure the API through the appsettings.json file to point to SQL Server.
 }
 ```
 
-### Database
+### Setup
+API along with Database can be spun up using docker with [compose.yml](compose.yml).
+```
+docker compose up
+```
+
+Please note that Database migration is still a manual step.
+
+### Database Migration
 Initial Database migration can be done either using Entity Framework tools or
 [Migration Script](/assets/Migrations/Initial.sql).
 

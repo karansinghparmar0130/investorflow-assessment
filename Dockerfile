@@ -1,5 +1,5 @@
-ARG BUILD_IMAGE=mcr.microsoft.com/dotnet/sdk:8.0-alpine
-ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+ARG BUILD_IMAGE=mcr.microsoft.com/dotnet/sdk:8.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:8.0
 
 ## Build stage
 FROM ${BUILD_IMAGE} AS builder

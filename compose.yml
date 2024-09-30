@@ -1,0 +1,28 @@
+services:
+  api:
+    container_name: api
+    depends_on:
+      - sqlserver
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8000:8080
+    environment:
+      - MSSQL_HOST=sqlserver
+      - MSSQL_SA_PASSWORD=test@admin123
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    restart: always
+    volumes:
+      - db-data:/var/opt/mssql
+    ports:
+      - 8001:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=test@admin123
+
+volumes:
+  db-data:
